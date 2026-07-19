@@ -42,4 +42,7 @@ const GymSchema: Schema = new Schema({
   subscriptionPlan: { type: String, default: 'Starter' }
 }, { timestamps: true });
 
+GymSchema.index({ owner: 1 });
+GymSchema.index({ status: 1 });
+
 export const Gym = mongoose.model<IGym>('Gym', GymSchema);

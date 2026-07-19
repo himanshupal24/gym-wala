@@ -26,4 +26,6 @@ const StaffSchema: Schema = new Schema({
 
 StaffSchema.index({ gym: 1 });
 
+StaffSchema.index({ status: 1 });
+
 export const Staff = mongoose.model<IStaff>('Staff', StaffSchema);

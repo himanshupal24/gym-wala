@@ -29,4 +29,6 @@ const PaymentSchema: Schema = new Schema({
 PaymentSchema.index({ gym: 1, paymentDate: -1 });
 PaymentSchema.index({ member: 1, paymentDate: -1 });
 
+PaymentSchema.index({ status: 1 });
+
 export const Payment = mongoose.model<IPayment>('Payment', PaymentSchema);

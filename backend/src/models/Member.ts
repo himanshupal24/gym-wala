@@ -29,4 +29,7 @@ const MemberSchema: Schema = new Schema({
 // Ensure email is unique per gym
 MemberSchema.index({ email: 1, gym: 1 }, { unique: true });
 
+MemberSchema.index({ gym: 1 });
+MemberSchema.index({ status: 1 });
+
 export const Member = mongoose.model<IMember>('Member', MemberSchema);

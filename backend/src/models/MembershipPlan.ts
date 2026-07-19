@@ -23,4 +23,7 @@ const MembershipPlanSchema: Schema = new Schema({
 // A gym should not have two active plans with the exact same name
 MembershipPlanSchema.index({ name: 1, gym: 1 }, { unique: true });
 
+MembershipPlanSchema.index({ gym: 1 });
+MembershipPlanSchema.index({ isActive: 1 });
+
 export const MembershipPlan = mongoose.model<IMembershipPlan>('MembershipPlan', MembershipPlanSchema);
