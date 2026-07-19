@@ -40,7 +40,7 @@ export const login = async (req: Request, res: Response) => {
     user.lastLogin = new Date();
     await user.save();
 
-    const token = generateToken(user);
+    const token = generateToken(user, userType);
 
     res.status(200).json({
       success: true,

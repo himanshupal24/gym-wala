@@ -45,6 +45,7 @@ export const protect = async (req: AuthRequest, res: Response, next: NextFunctio
     // Attach type explicitly since mongoose doc doesn't inherently have it
     const userObj = user.toObject();
     userObj.type = type;
+    userObj.id = user._id;
     
     req.user = userObj;
     next();
