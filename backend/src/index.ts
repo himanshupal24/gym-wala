@@ -13,6 +13,14 @@ import ownerRoutes from './routes/owner.routes';
 import memberRoutes from './routes/member.routes';
 import ticketRoutes from './routes/ticket.routes';
 import settingsRoutes from './routes/settings.routes';
+import membershipPlanRoutes from './routes/membership-plan.routes';
+import attendanceRoutes from './routes/attendance.routes';
+import paymentRoutes from './routes/payment.routes';
+import staffRoutes from './routes/staff.routes';
+import workoutRoutes from './routes/workout.routes';
+import dietRoutes from './routes/diet.routes';
+import announcementRoutes from './routes/announcement.routes';
+import reportsRoutes from './routes/reports.routes';
 
 dotenv.config();
 
@@ -53,6 +61,14 @@ app.use('/api/owners', ownerRoutes);
 app.use('/api/members', memberRoutes);
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/membership-plans', membershipPlanRoutes);
+app.use('/api/attendance', attendanceRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/staff', staffRoutes);
+app.use('/api/workouts', workoutRoutes);
+app.use('/api/diets', dietRoutes);
+app.use('/api/announcements', announcementRoutes);
+app.use('/api/reports', reportsRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   res.json({ message: 'Welcome to GymWala Shared API' });
