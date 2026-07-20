@@ -38,6 +38,8 @@ export const getMembers = async (req: AuthRequest, res: Response) => {
   }
 };
 
+import { hashPassword } from '../utils/auth';
+
 export const createMember = async (req: AuthRequest, res: Response) => {
   try {
     const gymId = await getGymIdForRequest(req);
@@ -47,7 +49,6 @@ export const createMember = async (req: AuthRequest, res: Response) => {
 
     const { firstName, lastName, email, phone, status, membershipType } = req.body;
 
-    const { hashPassword } = require('../utils/auth');
     const defaultPassword = 'password123';
     const passwordHash = await hashPassword(defaultPassword);
 
