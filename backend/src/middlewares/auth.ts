@@ -2,10 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { Admin, IAdmin } from '../models/Admin';
 import { Owner, IOwner } from '../models/Owner';
+import { IMember } from '../models/Member';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecretgymwala';
 
-export type UserType = (IAdmin | IOwner) & { type: 'Admin' | 'Owner' };
+export type UserType = (IAdmin | IOwner | IMember) & { type: 'Admin' | 'Owner' | 'Member' };
 
 export interface AuthRequest extends Request {
   user?: UserType;
@@ -30,6 +31,9 @@ export const protect = async (req: AuthRequest, res: Response, next: NextFunctio
 
     if (type === 'Owner') {
       user = await Owner.findById(decoded.id).select('-passwordHash');
+    } else if (type === 'Member') {
+      const { Member } = require('../models/Member');
+      user = await Member.findById(decoded.id).select('-passwordHash');
     } else {
       user = await Admin.findById(decoded.id).populate('role').select('-passwordHash');
     }
@@ -53,4 +57,13 @@ export const protect = async (req: AuthRequest, res: Response, next: NextFunctio
     console.error('Auth Middleware Error:', error);
     return res.status(401).json({ success: false, message: 'Not authorized, token failed' });
   }
+};
+
+export const authorize = (...roles: string[]) => {
+  return (req: AuthRequest, res: Response, next: NextFunction) => {
+    if (!req.user || !roles.includes(req.user.type)) {
+      return res.status(403).json({ success: false, message: `User role ${req.user?.type} is not authorized to access this route` });
+    }
+    next();
+  };
 };

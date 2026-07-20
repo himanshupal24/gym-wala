@@ -18,6 +18,10 @@ export interface IGym extends Document {
   }[];
   memberCount: number;
   subscriptionPlan: string;
+  gymUniqueCode?: string;
+  qrEnabled?: boolean;
+  qrCreatedAt?: Date;
+  qrStatus?: 'Active' | 'Deactivated';
   createdAt: Date;
   updatedAt: Date;
 }
@@ -39,7 +43,11 @@ const GymSchema: Schema = new Schema({
     verified: { type: Boolean, default: false }
   }],
   memberCount: { type: Number, default: 0 },
-  subscriptionPlan: { type: String, default: 'Starter' }
+  subscriptionPlan: { type: String, default: 'Starter' },
+  gymUniqueCode: { type: String, unique: true, sparse: true },
+  qrEnabled: { type: Boolean, default: true },
+  qrCreatedAt: { type: Date, default: Date.now },
+  qrStatus: { type: String, enum: ['Active', 'Deactivated'], default: 'Active' }
 }, { timestamps: true });
 
 GymSchema.index({ owner: 1 });

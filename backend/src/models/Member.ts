@@ -9,7 +9,8 @@ export interface IMember extends Document {
   status: 'Active' | 'Inactive' | 'Suspended';
   membershipType: string;
   joinDate: Date;
-  lastCheckIn: Date;
+  lastCheckIn?: Date;
+  lastAttendance?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -21,9 +22,12 @@ const MemberSchema: Schema = new Schema({
   phone: { type: String },
   gym: { type: Schema.Types.ObjectId, ref: 'Gym', required: true },
   status: { type: String, enum: ['Active', 'Inactive', 'Suspended'], default: 'Active' },
+  passwordHash: { type: String, select: false },
+  qrCode: { type: String },
   membershipType: { type: String, default: 'Standard' },
   joinDate: { type: Date, default: Date.now },
-  lastCheckIn: { type: Date }
+  lastCheckIn: { type: Date },
+  lastAttendance: { type: Date }
 }, { timestamps: true });
 
 // Ensure email is unique per gym

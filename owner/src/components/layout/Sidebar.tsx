@@ -4,11 +4,12 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { 
   LayoutDashboard, Users, CreditCard, CalendarCheck, 
-  Settings, MessageSquare, Dumbbell, Activity, ShieldCheck
+  Settings, MessageSquare, Dumbbell, Activity, ShieldCheck, QrCode
 } from "lucide-react"
 
 const navItems = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "QR Management", href: "/qr-management", icon: QrCode },
   { name: "Members", href: "/members", icon: Users },
   { name: "Membership Plans", href: "/plans", icon: CreditCard },
   { name: "Attendance", href: "/attendance", icon: CalendarCheck },

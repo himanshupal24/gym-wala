@@ -15,7 +15,11 @@ const AttendanceSchema: Schema = new Schema({
   gym: { type: Schema.Types.ObjectId, ref: 'Gym', required: true },
   date: { type: Date, required: true }, // Normalized to start of day
   status: { type: String, enum: ['Present', 'Late'], default: 'Present' },
-  checkInTime: { type: Date, required: true, default: Date.now }
+  checkInTime: { type: Date, required: true, default: Date.now },
+  attendanceSource: { type: String, enum: ['QR', 'Manual', 'Biometric'], default: 'QR' },
+  device: { type: String },
+  browser: { type: String },
+  ipAddress: { type: String }
 }, { timestamps: true });
 
 // A member can generally only check in once per day per gym, but we'll just index for fast queries

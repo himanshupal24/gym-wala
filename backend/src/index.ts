@@ -21,6 +21,8 @@ import workoutRoutes from './routes/workout.routes';
 import dietRoutes from './routes/diet.routes';
 import announcementRoutes from './routes/announcement.routes';
 import reportsRoutes from './routes/reports.routes';
+import meRoutes from './routes/me.routes';
+import checkinRoutes from './routes/checkin.routes';
 
 dotenv.config();
 
@@ -69,6 +71,8 @@ app.use('/api/workouts', workoutRoutes);
 app.use('/api/diets', dietRoutes);
 app.use('/api/announcements', announcementRoutes);
 app.use('/api/reports', reportsRoutes);
+app.use('/api/me', meRoutes);
+app.use('/api/checkin', checkinRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   res.json({ message: 'Welcome to GymWala Shared API' });

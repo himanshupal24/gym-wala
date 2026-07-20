@@ -11,12 +11,14 @@ import {
   LineChart, 
   Settings, 
   LifeBuoy,
-  LogOut
+  LogOut,
+  QrCode
 } from "lucide-react"
 import { useAuthStore } from "@/store/useAuthStore"
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
+  { name: "QR Audit & Manage", href: "/qr-management", icon: QrCode },
   { name: "Gym Management", href: "/gyms", icon: Store },
   { name: "Subscriptions", href: "/subscriptions", icon: CreditCard },
   { name: "Gym Owners", href: "/owners", icon: UserCircle },

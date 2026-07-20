@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import crypto from 'crypto';
+import { AuthRequest } from '../middlewares/auth';
 import { Gym } from '../models/Gym';
 
 export const getGyms = async (req: Request, res: Response) => {
@@ -69,6 +71,59 @@ export const deleteGym = async (req: Request, res: Response) => {
     }
 
     res.status(200).json({ success: true, message: 'Gym deleted successfully' });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const getGymQR = async (req: AuthRequest, res: Response) => {
+  try {
+    const user = req.user;
+    let gymId = null;
+
+    if (user?.type === 'Owner') {
+      const gym = await Gym.findOne({ owner: user?.id });
+      if (!gym) return res.status(404).json({ success: false, message: 'Gym not found' });
+      gymId = gym._id;
+    } else {
+      gymId = req.query.gymId;
+    }
+
+    if (!gymId) return res.status(400).json({ success: false, message: 'Gym ID is required' });
+
+    let gym = await Gym.findById(gymId);
+    if (!gym) return res.status(404).json({ success: false, message: 'Gym not found' });
+
+    if (!gym.gymUniqueCode) {
+      const randomCode = crypto.randomBytes(4).toString('hex').toUpperCase();
+      gym.gymUniqueCode = `GYM${randomCode}`;
+      await gym.save();
+    }
+
+    res.status(200).json({ success: true, gymUniqueCode: gym.gymUniqueCode, qrStatus: gym.qrStatus });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const regenerateGymQR = async (req: AuthRequest, res: Response) => {
+  try {
+    const { gymId } = req.body;
+    
+    if (!gymId) {
+      return res.status(400).json({ success: false, message: 'Gym ID is required' });
+    }
+
+    const gym = await Gym.findById(gymId);
+    if (!gym) {
+      return res.status(404).json({ success: false, message: 'Gym not found' });
+    }
+
+    const randomCode = crypto.randomBytes(4).toString('hex').toUpperCase();
+    gym.gymUniqueCode = `GYM${randomCode}`;
+    await gym.save();
+
+    res.status(200).json({ success: true, message: 'QR Code regenerated', gymUniqueCode: gym.gymUniqueCode });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }
