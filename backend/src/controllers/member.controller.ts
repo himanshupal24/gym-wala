@@ -47,6 +47,10 @@ export const createMember = async (req: AuthRequest, res: Response) => {
 
     const { firstName, lastName, email, phone, status, membershipType } = req.body;
 
+    const { hashPassword } = require('../utils/auth');
+    const defaultPassword = 'password123';
+    const passwordHash = await hashPassword(defaultPassword);
+
     const newMember = new Member({
       firstName,
       lastName,
@@ -54,6 +58,7 @@ export const createMember = async (req: AuthRequest, res: Response) => {
       phone,
       status,
       membershipType,
+      passwordHash,
       gym: req.user?.type === 'Owner' ? gymId : req.body.gym
     });
 
